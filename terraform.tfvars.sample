@@ -1,0 +1,113 @@
+# Provider credentials
+pm_api_url          = "https:///api2/json"
+pm_api_token_id     = "terraform@pam!terraform-token"
+pm_api_token_secret = ""
+pm_tls_insecure     = true
+
+# SSH private key (PEM) used by the K3s provider to connect to VMs
+ssh_private_key = <<-EOT
+  -----BEGIN OPENSSH PRIVATE KEY-----
+  -----END OPENSSH PRIVATE KEY-----
+EOT
+
+# Master VM configuration
+vms = [
+  # K3s server (control-plane) node
+  {
+    name      = "k3s-server-1"
+    node_name = "pve-node-1"
+
+    os = {
+      image_url    = "https:///noble-server-cloudimg-amd64.img"
+      datastore_id = "local"
+    }
+
+    cores  = 2
+    memory = 4096
+
+    disk = {
+      datastore_id = "local-lvm"
+      size         = 32
+    }
+
+    network_device = {
+      bridge = "vmbr0"
+    }
+
+    user = {
+      username = "ubuntu"
+      ssh_keys = ["ssh-ed25519 "]
+    }
+
+    k3s = {
+      enabled = true
+      mode    = "server"
+    }
+  },
+
+  # K3s agent (worker) node
+  {
+    name      = "k3s-agent-1"
+    node_name = "pve-node-2"
+
+    os = {
+      image_url    = "https:///noble-server-cloudimg-amd64.img"
+      datastore_id = "local"
+    }
+
+    cores  = 2
+    memory = 4096
+
+    disk = {
+      datastore_id = "local-lvm"
+      size         = 32
+    }
+
+    network_device = {
+      bridge = "vmbr0"
+    }
+
+    user = {
+      username = "ubuntu"
+      ssh_keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIElLBToUzAMdyuifLkRt+Ib901EtT4cHnPI2/Cxl2/jk"]
+    }
+
+    k3s = {
+      enabled = true
+      mode    = "agent"
+    }
+  },
+
+  # K3s agent (worker) node
+  {
+    name      = "k3s-agent-3"
+    node_name = "pve-node-3"
+
+    os = {
+      image_url    = "https:///noble-server-cloudimg-amd64.img"
+      datastore_id = "local"
+    }
+
+    cores  = 2
+    memory = 4096
+
+    disk = {
+      datastore_id = "local-lvm"
+      size         = 32
+    }
+
+    network_device = {
+      bridge = "vmbr0"
+    }
+
+    user = {
+      username = "ubuntu"
+      ssh_keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIElLBToUzAMdyuifLkRt+Ib901EtT4cHnPI2/Cxl2/jk"]
+    }
+
+    k3s = {
+      enabled = true
+      mode    = "agent"
+    }
+  }
+]
