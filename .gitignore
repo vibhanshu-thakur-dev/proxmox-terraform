@@ -12,3 +12,6 @@ terraform.tfstate.backup
 
 # Downloaded and customized cloud images (large binaries)
 scripts/.image-cache/
+
+# Kubeconfig written by Terraform after k3s bootstraps (contains cluster credentials)
+k3s.kubeconfig

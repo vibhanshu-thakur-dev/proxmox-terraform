@@ -8,13 +8,12 @@ terraform {
 }
 
 locals {
-  # All VMs where K3s is enabled
-  k3s_vms = [for vm in var.vm_info : vm if try(vm.k3s.enabled, false)]
-
+  k3s_vms       = [for vm in var.vm_info : vm if try(vm.k3s.enabled, false)]
   servers       = [for vm in local.k3s_vms : vm if vm.k3s.mode == "server"]
   agents        = [for vm in local.k3s_vms : vm if vm.k3s.mode == "agent"]
   bootstrap     = local.servers[0]
   extra_servers = slice(local.servers, 1, length(local.servers))
+  tls_sans      = var.k3s_api_hostname != null ? [var.k3s_api_hostname] : []
 }
 
 # First server: bootstraps the cluster.
@@ -30,6 +29,10 @@ resource "k3s_server" "bootstrap" {
   highly_available = {
     cluster_init = true
   }
+
+  config = length(local.tls_sans) > 0 ? yamlencode({
+    tls-san = local.tls_sans
+  }) : null
 }
 
 # Additional server nodes join the bootstrap server (HA control-plane)

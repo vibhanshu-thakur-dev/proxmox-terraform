@@ -19,3 +19,9 @@ variable "ssh_private_key" {
   type        = string
   sensitive   = true
 }
+
+variable "k3s_api_hostname" {
+  description = "DNS hostname for the K3s API server (added as TLS SAN; kubeconfig will use this instead of the bootstrap node IP)"
+  type        = string
+  default     = null
+}

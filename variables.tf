@@ -26,6 +26,25 @@ variable "ssh_private_key" {
   sensitive   = true
 }
 
+variable "k3s_api_hostname" {
+  description = "DNS hostname for the K3s API (e.g. k3s.example.com). Must resolve to a control-plane node or load-balancer VIP. Will be added as a TLS SAN and used in the kubeconfig."
+  type        = string
+  default     = null
+}
+
+variable "helm_releases" {
+  description = "Helm charts to install onto the K3s cluster after provisioning. Values are loaded from helm-values/<name>.yaml if the file exists."
+  type = list(object({
+    name             = string
+    chart            = string
+    repository       = string
+    namespace        = optional(string, "default")
+    version          = optional(string, null)
+    create_namespace = optional(bool, true)
+  }))
+  default = []
+}
+
 variable "vms" {
   description = "Master list of VMs to provision in Proxmox and optionally configure with K3s"
   type = list(object({
