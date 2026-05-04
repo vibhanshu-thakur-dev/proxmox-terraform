@@ -6,13 +6,22 @@ loki:
     replication_factor: 1
   storage:
     type: filesystem
+  schemaConfig:
+    configs:
+      - from: "2024-04-01"
+        object_store: filesystem
+        store: tsdb
+        schema: v13
+        index:
+          prefix: index_
+          period: 24h
 
 singleBinary:
   replicas: 1
   persistence:
     enabled: true
     storageClass: local-path
-    size: 20Gi
+    size: 5Gi
 
 read:
   replicas: 0
@@ -20,3 +29,12 @@ write:
   replicas: 0
 backend:
   replicas: 0
+
+chunksCache:
+  allocatedMemory: 512
+  resources:
+    requests:
+      memory: 548Mi
+      cpu: 100m
+    limits:
+      memory: 548Mi
