@@ -1,0 +1,63 @@
+logLevel: info
+
+helmController:
+  create: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+
+kustomizeController:
+  create: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+
+sourceController:
+  create: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+
+notificationController:
+  create: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+
+# Disabled by default — enable if you need automated image tag updates
+imageReflectorController:
+  create: false
+
+imageAutomationController:
+  create: false
+
+# Integrates with the kube-prometheus-stack PodMonitor CRD
+prometheus:
+  podMonitor:
+    create: true
+    interval: 60s
+    scrapeTimeout: 30s
+    namespace: monitoring
+
+policies:
+  create: true
+
+rbac:
+  create: true
+  createAggregationRules: true

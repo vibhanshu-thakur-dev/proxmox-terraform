@@ -36,3 +36,15 @@ module "helm" {
 
   depends_on = [local_sensitive_file.kubeconfig, module.k3s]
 }
+
+module "flux_config" {
+  source = "./modules/flux-config"
+  count  = var.flux_github_token != null ? 1 : 0
+
+  github_token       = var.flux_github_token
+  git_repository_url = var.flux_git_repository_url
+  git_branch         = var.flux_git_branch
+  git_path           = var.flux_git_path
+
+  depends_on = [module.helm]
+}

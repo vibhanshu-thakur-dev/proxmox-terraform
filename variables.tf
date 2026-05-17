@@ -45,6 +45,31 @@ variable "helm_releases" {
   default = []
 }
 
+variable "flux_github_token" {
+  description = "GitHub personal access token for Flux to read the GitOps repository (needs repo read scope). Leave null to skip Flux GitRepository configuration."
+  type        = string
+  sensitive   = true
+  default     = null
+}
+
+variable "flux_git_repository_url" {
+  description = "HTTPS URL of the GitOps repository Flux should sync from (e.g. https://github.com/org/repo)"
+  type        = string
+  default     = null
+}
+
+variable "flux_git_branch" {
+  description = "Git branch Flux should track"
+  type        = string
+  default     = "main"
+}
+
+variable "flux_git_path" {
+  description = "Path within the repository where Flux Kustomization manifests live"
+  type        = string
+  default     = "./clusters/home"
+}
+
 variable "vms" {
   description = "Master list of VMs to provision in Proxmox and optionally configure with K3s"
   type = list(object({

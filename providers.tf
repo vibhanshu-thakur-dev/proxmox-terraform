@@ -16,6 +16,14 @@ terraform {
       source  = "hashicorp/local"
       version = "~> 2.0"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.0"
+    }
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = "~> 1.14"
+    }
   }
 }
 
@@ -38,4 +46,12 @@ provider "helm" {
   kubernetes {
     config_path = "${path.root}/k3s.kubeconfig"
   }
+}
+
+provider "kubernetes" {
+  config_path = "${path.root}/k3s.kubeconfig"
+}
+
+provider "kubectl" {
+  config_path = "${path.root}/k3s.kubeconfig"
 }

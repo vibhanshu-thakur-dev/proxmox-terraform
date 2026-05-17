@@ -10,6 +10,12 @@ ssh_private_key = <<-EOT
   -----END OPENSSH PRIVATE KEY-----
 EOT
 
+# Flux GitOps configuration (leave commented out to skip)
+# flux_github_token      = "ghp_xxxxxxxxxxxxxxxxxxxx"
+# flux_git_repository_url = "https://github.com/your-org/your-gitops-repo"
+# flux_git_branch        = "main"
+# flux_git_path          = "./clusters/home"
+
 # Master VM configuration
 vms = [
   # K3s server (control-plane) node
